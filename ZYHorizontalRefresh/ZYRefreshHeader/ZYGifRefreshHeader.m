@@ -60,13 +60,14 @@
 
 - (void)setStateLabelHidden:(BOOL)stateLabelHidden {
     _stateLabelHidden  = stateLabelHidden;
+    self.statusLabel.hidden = stateLabelHidden;
     
     if (self.stateLabelHidden) {
-        [self.gifImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.gifImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
         }];
     }else {
-        [self.gifImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.gifImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.statusLabel.mas_bottom).offset(15);
             make.centerX.equalTo(self.statusLabel);
             make.bottom.mas_equalTo(0);
