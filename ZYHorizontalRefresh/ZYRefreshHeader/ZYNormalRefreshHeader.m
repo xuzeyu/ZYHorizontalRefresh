@@ -34,7 +34,7 @@
         [newSuperview addObserver:self forKeyPath:kContentOffsetKey options:NSKeyValueObservingOptionNew context:nil];
         
         self.scrollView = (UIScrollView *)newSuperview;
-        self.size = CGSizeMake(kZYRefreshComponentWidth, newSuperview.height);
+        self.size = CGSizeMake([ZYRefreshConfig config].refreshComponentWidth, newSuperview.height);
         self.right = 0;
         self.top = 0;
         
@@ -86,12 +86,12 @@
         
         if (self.state == ZYRefreshStatePullCanRefresh && contentOffsetX < releaseToRefreshOffsetX) {
             // 转为松开即可刷新状态
-            self.state =     ZYRefreshStateReleaseCanRefresh;
+            self.state = ZYRefreshStateReleaseCanRefresh;
         } else if (self.state ==     ZYRefreshStateReleaseCanRefresh && contentOffsetX >= releaseToRefreshOffsetX) {
             // 转为拖拽可以刷新状态
             self.state = ZYRefreshStatePullCanRefresh;
         }
-    } else if (self.state ==     ZYRefreshStateReleaseCanRefresh && !self.scrollView.isDragging) {
+    } else if (self.state == ZYRefreshStateReleaseCanRefresh && !self.scrollView.isDragging) {
         // 开始刷新
         self.state = ZYRefreshStateRefreshing;
         self.pullingPercent = 1.f;
@@ -115,7 +115,7 @@
             self.imageView.hidden = NO;
             self.activityView.hidden = YES;
             self.imageView.image = [[ZYRefreshConfig imageNamed:@"arrow.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            [UIView animateWithDuration:kZYRefreshFastAnimationDuration animations:^{
+            [UIView animateWithDuration:[ZYRefreshConfig config].refreshFastAnimationDuration animations:^{
                 self.imageView.transform = CGAffineTransformMakeRotation(0);
             }];
             break;
@@ -123,7 +123,7 @@
         case     ZYRefreshStateReleaseCanRefresh: {
             self.imageView.hidden = NO;
             self.activityView.hidden = YES;
-            [UIView animateWithDuration:kZYRefreshFastAnimationDuration animations:^{
+            [UIView animateWithDuration:[ZYRefreshConfig config].refreshFastAnimationDuration animations:^{
                 self.imageView.transform = CGAffineTransformMakeRotation(M_PI);
             }];
             break;
@@ -144,14 +144,17 @@
 }
 
 - (void)beginRefreshing {
-    [UIView animateWithDuration:kZYRefreshFastAnimationDuration animations:^{
-        self.scrollView.contentInset = self.originInsets;
-    }];
+    self.state = ZYRefreshStateReleaseCanRefresh;
     [self reloadStateWithContentOffsetX];
+    [UIView animateWithDuration:[ZYRefreshConfig config].refreshFastAnimationDuration animations:^{
+        self.scrollView.contentOffset = CGPointMake(- [ZYRefreshConfig config].refreshComponentWidth, 0);
+    }completion:^(BOOL finished) {
+        self.state = ZYRefreshStateRefreshing;
+    }];
 }
 
 - (void)endRefreshing {
-    [UIView animateWithDuration:kZYRefreshFastAnimationDuration animations:^{
+    [UIView animateWithDuration:[ZYRefreshConfig config].refreshFastAnimationDuration animations:^{
         self.scrollView.contentInset = self.originInsets;
     }];
     self.state = ZYRefreshStatePullCanRefresh;

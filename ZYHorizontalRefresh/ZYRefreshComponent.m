@@ -46,6 +46,10 @@
     return self;
 }
 
+- (void)beginRefreshing {
+    
+}
+
 - (void)endRefreshing {
 
 }
@@ -157,7 +161,7 @@
 #pragma mark - Other
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.size = CGSizeMake(kZYRefreshComponentWidth, self.superview.height);
+    self.size = CGSizeMake([ZYRefreshConfig config].refreshComponentWidth, self.superview.height);
 }
 
 @end

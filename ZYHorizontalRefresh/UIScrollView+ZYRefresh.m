@@ -146,6 +146,10 @@
 //    self.zy_footer = gifFooter;
 //}
 
+- (void)beginRefreshing {
+    if (self.zy_header) { [self.zy_header beginRefreshing]; }
+}
+
 - (void)endRefreshing {
     if (self.zy_header) { [self.zy_header endRefreshing]; }
     if (self.zy_footer) { [self.zy_footer endRefreshing]; }

@@ -45,7 +45,7 @@
         [newSuperview addObserver:self forKeyPath:kContentOffsetKey options:NSKeyValueObservingOptionNew context:nil];
         
         self.scrollView = (UIScrollView *)newSuperview;
-        self.size = CGSizeMake(kZYRefreshComponentWidth, newSuperview.height);
+        self.size = CGSizeMake([ZYRefreshConfig config].refreshComponentWidth, newSuperview.height);
         if (self.scrollView.contentSize.width >= self.scrollView.width) {
             self.left = self.scrollView.contentSize.width;
         } else {
@@ -135,7 +135,7 @@
             self.imageView.hidden = NO;
             self.activityView.hidden = YES;
             self.imageView.image = [[ZYRefreshConfig imageNamed:@"arrow.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            [UIView animateWithDuration:kZYRefreshFastAnimationDuration animations:^{
+            [UIView animateWithDuration:[ZYRefreshConfig config].refreshFastAnimationDuration animations:^{
                 self.imageView.transform = CGAffineTransformMakeRotation(0);
             }];
             break;
@@ -143,7 +143,7 @@
         case     ZYRefreshStateReleaseCanRefresh: {
             self.imageView.hidden = NO;
             self.activityView.hidden = YES;
-            [UIView animateWithDuration:kZYRefreshFastAnimationDuration animations:^{
+            [UIView animateWithDuration:[ZYRefreshConfig config].refreshFastAnimationDuration animations:^{
                 self.imageView.transform = CGAffineTransformMakeRotation(M_PI);
             }];
             break;
@@ -164,7 +164,7 @@
 }
 
 - (void)endRefreshing {
-    [UIView animateWithDuration:kZYRefreshFastAnimationDuration animations:^{
+    [UIView animateWithDuration:[ZYRefreshConfig config].refreshFastAnimationDuration animations:^{
         self.scrollView.contentInset = self.originInsets;        
     }];
     if (self.state == ZYRefreshStateNoMoreData) {

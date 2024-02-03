@@ -67,6 +67,8 @@
             break;
     }
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    [_collectionView beginRefreshing];
 }
 
 #pragma mark -

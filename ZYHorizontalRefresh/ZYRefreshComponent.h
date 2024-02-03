@@ -22,11 +22,6 @@ typedef NS_ENUM(NSUInteger, ZYRefreshState) {
 static NSString *const kContentOffsetKey = @"contentOffset";
 static NSString *const kContentSizeKey = @"contentSize";
 
-/// 刷新控件的宽度，在这里调整
-static CGFloat const kZYRefreshComponentWidth = 44.0;
-static CGFloat const kZYRefreshFastAnimationDuration = 0.25;
-static CGFloat const kZYRefreshSlowAnimationDuration = 0.4;
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -73,8 +68,9 @@ static CGFloat const kZYRefreshSlowAnimationDuration = 0.4;
 @property (nonatomic, assign) BOOL stateLabelHidden;
 
 /// 正在刷新的回调
-@property (copy, nonatomic, nullable) ZYRefreshComponentAction refreshingBlock;
+@property (nonatomic, copy, nullable) ZYRefreshComponentAction refreshingBlock;
 
+- (void)beginRefreshing;
 - (void)endRefreshing;
 
 @end

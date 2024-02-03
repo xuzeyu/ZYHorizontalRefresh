@@ -21,6 +21,10 @@
  */
 @property (nonatomic, strong) ZYRefreshComponent *zy_footer;
 
+/**
+ * 开始刷新
+ */
+- (void)beginRefreshing;
 
 /**
  * 结束刷新
