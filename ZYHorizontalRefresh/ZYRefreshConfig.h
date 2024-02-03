@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *headerPullCanRefreshText;
 @property (nonatomic, strong) NSString *headerReleaseCanRefreshText;
 @property (nonatomic, strong) NSString *headerRefreshingText;
+@property (nonatomic, strong) NSString *headerNoMoreDataText;
 
 @property (nonatomic, strong) NSString *footerPullCanRefreshText;
 @property (nonatomic, strong) NSString *footerReleaseCanRefreshText;

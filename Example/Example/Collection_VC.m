@@ -75,12 +75,14 @@
 #pragma mark - refresh control Using Example
 - (void)normalDemo {
     WeakSelf(self)
-    _collectionView.zy_header = [ZYNormalRefreshHeader headerWithRefreshingBlock:^{
+    ZYNormalRefreshHeader *header = [ZYNormalRefreshHeader headerWithRefreshingBlock:^{
         [weakSelf refreshData];
     }];
-    _collectionView.zy_footer = [ZYNormalRefreshFooter footerWithRefreshingBlock:^{
+    _collectionView.zy_header = header;
+    ZYNormalRefreshFooter *footer = [ZYNormalRefreshFooter footerWithRefreshingBlock:^{
         [weakSelf loadingData];
     }];
+    _collectionView.zy_footer = footer;
 }
 
 - (void)gifDemo {

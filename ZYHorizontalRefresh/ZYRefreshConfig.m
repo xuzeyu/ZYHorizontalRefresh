@@ -29,6 +29,7 @@
         self.headerPullCanRefreshText = @"右拉即可刷新";
         self.headerReleaseCanRefreshText = @"松开即可刷新";
         self.headerRefreshingText = @"正在为您刷新";
+        self.headerNoMoreDataText = @"已经是最后一页";
         
         self.footerPullCanRefreshText = @"左拉即可加载";
         self.footerReleaseCanRefreshText = @"松开即可加载";

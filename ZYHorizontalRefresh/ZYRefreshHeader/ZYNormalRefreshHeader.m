@@ -19,6 +19,7 @@
     [header setTitle:[ZYRefreshConfig config].headerPullCanRefreshText forState:ZYRefreshStatePullCanRefresh];
     [header setTitle:[ZYRefreshConfig config].headerReleaseCanRefreshText forState:ZYRefreshStateReleaseCanRefresh];
     [header setTitle:[ZYRefreshConfig config].headerRefreshingText forState:ZYRefreshStateRefreshing];
+    [header setTitle:[ZYRefreshConfig config].footerNoMoreDataText forState:ZYRefreshStateNoMoreData];
     header.statusLabel.textColor = [ZYRefreshConfig config].statusTextColor;
     header.imageView.tintColor = [ZYRefreshConfig config].imageViewColor;
     header.refreshingBlock = refreshingBlock;
@@ -160,5 +161,13 @@
     self.state = ZYRefreshStatePullCanRefresh;
 }
 
+- (void)setIsLastPage:(BOOL)isLastPage {
+    _isLastPage = isLastPage;
+    if (_isLastPage) {
+        self.state = ZYRefreshStateNoMoreData;
+    } else {
+        self.state = ZYRefreshStatePullCanRefresh;
+    }
+}
 
 @end
