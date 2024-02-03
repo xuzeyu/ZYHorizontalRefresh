@@ -12,11 +12,13 @@
 		FD5071972B6CE0CC00099E3C /* ZYGifRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5071892B6CE0CC00099E3C /* ZYGifRefreshHeader.m */; };
 		FD5071992B6CE0CC00099E3C /* UIScrollView+ZYRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50718D2B6CE0CC00099E3C /* UIScrollView+ZYRefresh.m */; };
 		FD50719A2B6CE0CC00099E3C /* UIView+ZYFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50718E2B6CE0CC00099E3C /* UIView+ZYFrame.m */; };
-		FD50719B2B6CE0CC00099E3C /* ZYBaseRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50718F2B6CE0CC00099E3C /* ZYBaseRefreshControl.m */; };
+		FD50719B2B6CE0CC00099E3C /* ZYRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50718F2B6CE0CC00099E3C /* ZYRefreshComponent.m */; };
 		FD50719C2B6CE0CC00099E3C /* ZYNormalRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5071912B6CE0CC00099E3C /* ZYNormalRefreshFooter.m */; };
 		FD50719D2B6CE0CC00099E3C /* ZYGifRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5071942B6CE0CC00099E3C /* ZYGifRefreshFooter.m */; };
 		FD5072222B6CE0DD00099E3C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5071E12B6CE0DD00099E3C /* ViewController.m */; };
 		FD76E0BE2B6CFDCB0097F1F9 /* ZYHorizontalRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FD76E0BD2B6CFDCB0097F1F9 /* ZYHorizontalRefresh.bundle */; };
+		FD76E0C42B6DD2450097F1F9 /* ZYRefreshConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FD76E0C32B6DD2450097F1F9 /* ZYRefreshConfig.m */; };
+		FD76E0C72B6DD2510097F1F9 /* ZYRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = FD76E0C62B6DD2510097F1F9 /* ZYRefreshConst.m */; };
 		FDC6EBAE2906211E008CAA42 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC6EBAD2906211E008CAA42 /* AppDelegate.m */; };
 		FDC6EBB12906211E008CAA42 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC6EBB02906211E008CAA42 /* SceneDelegate.m */; };
 		FDC6EBB42906211E008CAA42 /* Collection_VC.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC6EBB32906211E008CAA42 /* Collection_VC.m */; };
@@ -50,7 +52,6 @@
 		79F9C4274EC92FC35090F0CB /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		7AE003B9306456BE0FDA485C /* libPods-Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		897C8470057AB71128916FB8 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
-		FD5071842B6CE0CC00099E3C /* ZYRefreshConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYRefreshConfig.h; sourceTree = "<group>"; };
 		FD5071862B6CE0CC00099E3C /* ZYNormalRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYNormalRefreshHeader.m; sourceTree = "<group>"; };
 		FD5071872B6CE0CC00099E3C /* ZYGifRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYGifRefreshHeader.h; sourceTree = "<group>"; };
 		FD5071882B6CE0CC00099E3C /* ZYNormalRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYNormalRefreshHeader.h; sourceTree = "<group>"; };
@@ -59,15 +60,20 @@
 		FD50718C2B6CE0CC00099E3C /* UIView+ZYFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ZYFrame.h"; sourceTree = "<group>"; };
 		FD50718D2B6CE0CC00099E3C /* UIScrollView+ZYRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+ZYRefresh.m"; sourceTree = "<group>"; };
 		FD50718E2B6CE0CC00099E3C /* UIView+ZYFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ZYFrame.m"; sourceTree = "<group>"; };
-		FD50718F2B6CE0CC00099E3C /* ZYBaseRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYBaseRefreshControl.m; sourceTree = "<group>"; };
+		FD50718F2B6CE0CC00099E3C /* ZYRefreshComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYRefreshComponent.m; sourceTree = "<group>"; };
 		FD5071912B6CE0CC00099E3C /* ZYNormalRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYNormalRefreshFooter.m; sourceTree = "<group>"; };
 		FD5071922B6CE0CC00099E3C /* ZYGifRefreshFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYGifRefreshFooter.h; sourceTree = "<group>"; };
 		FD5071932B6CE0CC00099E3C /* ZYNormalRefreshFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYNormalRefreshFooter.h; sourceTree = "<group>"; };
 		FD5071942B6CE0CC00099E3C /* ZYGifRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYGifRefreshFooter.m; sourceTree = "<group>"; };
-		FD5071952B6CE0CC00099E3C /* ZYBaseRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYBaseRefreshControl.h; sourceTree = "<group>"; };
+		FD5071952B6CE0CC00099E3C /* ZYRefreshComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYRefreshComponent.h; sourceTree = "<group>"; };
 		FD50719F2B6CE0DC00099E3C /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		FD5071E12B6CE0DD00099E3C /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		FD76E0BD2B6CFDCB0097F1F9 /* ZYHorizontalRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ZYHorizontalRefresh.bundle; sourceTree = "<group>"; };
+		FD76E0C12B6DD1260097F1F9 /* ZYRefreshHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYRefreshHeader.h; sourceTree = "<group>"; };
+		FD76E0C22B6DD2450097F1F9 /* ZYRefreshConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYRefreshConfig.h; sourceTree = "<group>"; };
+		FD76E0C32B6DD2450097F1F9 /* ZYRefreshConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYRefreshConfig.m; sourceTree = "<group>"; };
+		FD76E0C52B6DD2510097F1F9 /* ZYRefreshConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYRefreshConst.h; sourceTree = "<group>"; };
+		FD76E0C62B6DD2510097F1F9 /* ZYRefreshConst.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYRefreshConst.m; sourceTree = "<group>"; };
 		FDC6EBA92906211E008CAA42 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDC6EBAC2906211E008CAA42 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FDC6EBAD2906211E008CAA42 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -133,9 +139,8 @@
 		FD5070C52B6CE02E00099E3C /* ZYHorizontalRefresh */ = {
 			isa = PBXGroup;
 			children = (
-				FD5071952B6CE0CC00099E3C /* ZYBaseRefreshControl.h */,
-				FD50718F2B6CE0CC00099E3C /* ZYBaseRefreshControl.m */,
-				FD5071842B6CE0CC00099E3C /* ZYRefreshConfig.h */,
+				FD5071952B6CE0CC00099E3C /* ZYRefreshComponent.h */,
+				FD50718F2B6CE0CC00099E3C /* ZYRefreshComponent.m */,
 				FD5071902B6CE0CC00099E3C /* ZYRefreshFooter */,
 				FD5071852B6CE0CC00099E3C /* ZYRefreshHeader */,
 				FD50718A2B6CE0CC00099E3C /* UIScrollView+ZYRefresh.h */,
@@ -143,6 +148,11 @@
 				FD50718C2B6CE0CC00099E3C /* UIView+ZYFrame.h */,
 				FD50718E2B6CE0CC00099E3C /* UIView+ZYFrame.m */,
 				FD76E0BD2B6CFDCB0097F1F9 /* ZYHorizontalRefresh.bundle */,
+				FD76E0C12B6DD1260097F1F9 /* ZYRefreshHeader.h */,
+				FD76E0C22B6DD2450097F1F9 /* ZYRefreshConfig.h */,
+				FD76E0C32B6DD2450097F1F9 /* ZYRefreshConfig.m */,
+				FD76E0C52B6DD2510097F1F9 /* ZYRefreshConst.h */,
+				FD76E0C62B6DD2510097F1F9 /* ZYRefreshConst.m */,
 			);
 			name = ZYHorizontalRefresh;
 			path = ../../ZYHorizontalRefresh;
@@ -395,9 +405,11 @@
 				FDC6EBBF2906211E008CAA42 /* main.m in Sources */,
 				FD50719A2B6CE0CC00099E3C /* UIView+ZYFrame.m in Sources */,
 				FD5071972B6CE0CC00099E3C /* ZYGifRefreshHeader.m in Sources */,
+				FD76E0C42B6DD2450097F1F9 /* ZYRefreshConfig.m in Sources */,
 				FDC6EBB12906211E008CAA42 /* SceneDelegate.m in Sources */,
+				FD76E0C72B6DD2510097F1F9 /* ZYRefreshConst.m in Sources */,
 				FD5072222B6CE0DD00099E3C /* ViewController.m in Sources */,
-				FD50719B2B6CE0CC00099E3C /* ZYBaseRefreshControl.m in Sources */,
+				FD50719B2B6CE0CC00099E3C /* ZYRefreshComponent.m in Sources */,
 				FD50719D2B6CE0CC00099E3C /* ZYGifRefreshFooter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

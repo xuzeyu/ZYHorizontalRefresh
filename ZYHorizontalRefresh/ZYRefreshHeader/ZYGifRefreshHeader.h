@@ -10,7 +10,9 @@
 
 @interface ZYGifRefreshHeader : ZYNormalRefreshHeader
 
-+ (instancetype)header;
++ (instancetype)headerWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock;
+
++ (instancetype)headerWithPullCanRefreshImages:(NSArray *)pullCanRefreshImages refreshingImages:(NSArray *)refreshingImages refreshingBlock:(ZYRefreshComponentAction)refreshingBlock;
 
 - (void)setImages:(NSArray *)images forState:(ZYRefreshState)state;
 

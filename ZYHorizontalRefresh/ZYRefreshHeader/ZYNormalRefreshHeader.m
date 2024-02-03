@@ -10,14 +10,19 @@
 
 @interface ZYNormalRefreshHeader ()
 
-@property (nonatomic, copy) ZYRefreshClosure closure;
-
 @end
 
 @implementation ZYNormalRefreshHeader
 
-+ (instancetype)header {
-    return [[ZYNormalRefreshHeader alloc] init];
++ (instancetype)headerWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+    ZYNormalRefreshHeader *header = [[ZYNormalRefreshHeader alloc] init];
+    [header setTitle:[ZYRefreshConfig config].headerPullCanRefreshText forState:ZYRefreshStatePullCanRefresh];
+    [header setTitle:[ZYRefreshConfig config].headerReleaseCanRefreshText forState:ZYRefreshStateReleaseCanRefresh];
+    [header setTitle:[ZYRefreshConfig config].headerRefreshingText forState:ZYRefreshStateRefreshing];
+    header.statusLabel.textColor = [ZYRefreshConfig config].statusTextColor;
+    header.imageView.tintColor = [ZYRefreshConfig config].imageViewColor;
+    header.refreshingBlock = refreshingBlock;
+    return header;
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview {
@@ -29,13 +34,28 @@
         [newSuperview addObserver:self forKeyPath:kContentOffsetKey options:NSKeyValueObservingOptionNew context:nil];
         
         self.scrollView = (UIScrollView *)newSuperview;
-        self.size = CGSizeMake(kZYRefreshControlWidth, newSuperview.height);
+        self.size = CGSizeMake(kZYRefreshComponentWidth, newSuperview.height);
         self.right = 0;
         self.top = 0;
         
         self.originInsets = self.scrollView.contentInset;
         self.state = ZYRefreshStatePullCanRefresh;
         self.statusLabel.text = self.pullCanRefreshText;
+        self.stateLabelHidden = self.stateLabelHidden;
+    }
+}
+
+- (void)setStateLabelHidden:(BOOL)stateLabelHidden {
+    [super setStateLabelHidden:stateLabelHidden];
+    
+    if (self.stateLabelHidden) {
+        [self.activityView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.centerView);
+        }];
+    }else {
+        [self.activityView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.imageView);
+        }];
     }
 }
 
@@ -66,12 +86,12 @@
         
         if (self.state == ZYRefreshStatePullCanRefresh && contentOffsetX < releaseToRefreshOffsetX) {
             // 转为松开即可刷新状态
-            self.state = ZYRefreshStateReleaseCanRefresh;
-        } else if (self.state == ZYRefreshStateReleaseCanRefresh && contentOffsetX >= releaseToRefreshOffsetX) {
+            self.state =     ZYRefreshStateReleaseCanRefresh;
+        } else if (self.state ==     ZYRefreshStateReleaseCanRefresh && contentOffsetX >= releaseToRefreshOffsetX) {
             // 转为拖拽可以刷新状态
             self.state = ZYRefreshStatePullCanRefresh;
         }
-    } else if (self.state == ZYRefreshStateReleaseCanRefresh && !self.scrollView.isDragging) {
+    } else if (self.state ==     ZYRefreshStateReleaseCanRefresh && !self.scrollView.isDragging) {
         // 开始刷新
         self.state = ZYRefreshStateRefreshing;
         self.pullingPercent = 1.f;
@@ -81,7 +101,7 @@
         self.scrollView.contentInset = insets;
         
         // 回调
-        BLOCK_EXE(_closure)
+        BLOCK_EXE(self.refreshingBlock)
     } else {
         self.pullingPercent = (contentOffsetX - appearOffsetX) / self.width;
     }
@@ -94,13 +114,13 @@
         case ZYRefreshStatePullCanRefresh: {
             self.imageView.hidden = NO;
             self.activityView.hidden = YES;
-            self.imageView.image = [UIImage imageNamed:@"ZYHorizontalRefresh.bundle/arrow.png"];
+            self.imageView.image = [[ZYRefreshConfig imageNamed:@"arrow.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             [UIView animateWithDuration:kZYRefreshFastAnimationDuration animations:^{
                 self.imageView.transform = CGAffineTransformMakeRotation(0);
             }];
             break;
         }
-        case ZYRefreshStateReleaseCanRefresh: {
+        case     ZYRefreshStateReleaseCanRefresh: {
             self.imageView.hidden = NO;
             self.activityView.hidden = YES;
             [UIView animateWithDuration:kZYRefreshFastAnimationDuration animations:^{
@@ -137,16 +157,5 @@
     self.state = ZYRefreshStatePullCanRefresh;
 }
 
-- (void)addRefreshHeaderWithClosure:(ZYRefreshClosure)closure {
-    self.closure = closure;
-}
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

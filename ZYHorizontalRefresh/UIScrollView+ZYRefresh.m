@@ -11,294 +11,144 @@
 
 @interface UIScrollView ()
 
-@property (nonatomic, strong) ZYNormalRefreshHeader *header;
-@property (nonatomic, strong) ZYNormalRefreshFooter *footer;
-@property (nonatomic, strong) ZYGifRefreshHeader *gifHeader;
-@property (nonatomic, strong) ZYGifRefreshFooter *gifFooter;
-
 @end
 
 @implementation UIScrollView (ZYRefresh)
 
-YYSYNTH_DYNAMIC_PROPERTY_OBJECT(header, setHeader, RETAIN, ZYNormalRefreshHeader *)
-YYSYNTH_DYNAMIC_PROPERTY_OBJECT(footer, setFooter, RETAIN, ZYNormalRefreshFooter *)
-YYSYNTH_DYNAMIC_PROPERTY_OBJECT(gifHeader, setGifHeader, RETAIN, ZYGifRefreshHeader *)
-YYSYNTH_DYNAMIC_PROPERTY_OBJECT(gifFooter, setGifFooter, RETAIN, ZYGifRefreshFooter *)
+//YYSYNTH_DYNAMIC_PROPERTY_OBJECT(zy_header, setZy_header, RETAIN, ZYRefreshComponent *)
+//YYSYNTH_DYNAMIC_PROPERTY_OBJECT(zy_footer, setZy_footer, RETAIN, ZYRefreshComponent *)
 
-- (void)addRefreshHeaderWithClosure:(ZYRefreshClosure)closure {
-    if (!self.header && !self.gifHeader) {
-        self.header = [ZYNormalRefreshHeader header];
-        [self.header setTitle:@"右拉即可刷新" forState:ZYRefreshStatePullCanRefresh];
-        [self.header setTitle:@"松开即可刷新" forState:ZYRefreshStateReleaseCanRefresh];
-        [self.header setTitle:@"正在为您刷新" forState:ZYRefreshStateRefreshing];
-        self.header.statusLabel.textColor = [UIColor colorWithRed:90/255.0 green:90/255.0 blue:90/255.0 alpha:1];
-        [self addSubview:self.header];
-        [self.header addRefreshHeaderWithClosure:closure];
+- (void)setZy_header:(ZYRefreshComponent *)zy_header {
+    if (self.zy_header) {
+        [self.zy_header removeFromSuperview];
     }
+    [self addSubview:zy_header];
+    objc_setAssociatedObject(self, @selector(zy_header), zy_header, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)addRefreshFooterWithClosure:(ZYRefreshClosure)closure {
-    if (!self.footer && !self.gifFooter) {
-        self.footer = [ZYNormalRefreshFooter footer];
-        [self.footer setTitle:@"左拉即可加载" forState:ZYRefreshStatePullCanRefresh];
-        [self.footer setTitle:@"松开即可加载" forState:ZYRefreshStateReleaseCanRefresh];
-        [self.footer setTitle:@"正在为您加载" forState:ZYRefreshStateRefreshing];
-        [self.footer setTitle:@"已经是最后一页" forState:ZYRefreshStateNoMoreData];
-        self.footer.statusLabel.textColor = [UIColor colorWithRed:90/255.0 green:90/255.0 blue:90/255.0 alpha:1];
-        [self addSubview:self.footer];
-        [self.footer addRefreshFooterWithClosure:closure];
+- (ZYRefreshComponent *)zy_header {
+    return objc_getAssociatedObject(self, @selector(zy_header));
+}
+
+- (void)setZy_footer:(ZYRefreshComponent *)zy_footer {
+    if (self.zy_footer) {
+        [self.zy_footer removeFromSuperview];
     }
+    [self addSubview:zy_footer];
+    objc_setAssociatedObject(self, @selector(zy_footer), zy_footer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)addGifRefreshHeaderWithClosure:(ZYRefreshClosure)closure {
-    if (!self.header && !self.gifHeader) {
-        self.gifHeader = [ZYGifRefreshHeader header];
-        // 是否隐藏状态label
-        self.gifHeader.stateLabelHidden = NO;
-        [self.gifHeader setTitle:@"右拉即可刷新" forState:ZYRefreshStatePullCanRefresh];
-        [self.gifHeader setTitle:@"松开即可刷新" forState:ZYRefreshStateReleaseCanRefresh];
-        [self.gifHeader setTitle:@"正在为您刷新" forState:ZYRefreshStateRefreshing];
-        self.gifHeader.statusLabel.textColor = [UIColor colorWithRed:90/255.0 green:90/255.0 blue:90/255.0 alpha:1];
-        // 这里根据自己的需求来调整图片 by liang;
-        NSMutableArray *_idleImages = [NSMutableArray array];
-        for (NSUInteger i = 1; i <= 60; i++) {
-            UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ZYHorizontalRefresh.bundle/GifImages/dropdown_anim__000%zd", i]];
-            [_idleImages addObject:image];
-        }
-        [self.gifHeader setImages:_idleImages forState:ZYRefreshStatePullCanRefresh];
-        NSMutableArray *_refreshingImages = [NSMutableArray array];
-        for (NSUInteger i = 1; i <= 3; i++) {
-            UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ZYHorizontalRefresh.bundle/GifImages/dropdown_loading_0%zd", i]];
-            [_refreshingImages addObject:image];
-        }
-        [self.gifHeader setImages:_refreshingImages forState:ZYRefreshStateRefreshing];
-        [self addSubview:self.gifHeader];
-        [self.gifHeader addRefreshHeaderWithClosure:closure];
-    }
+- (ZYRefreshComponent *)zy_footer {
+    return objc_getAssociatedObject(self, @selector(zy_footer));
 }
 
-- (void)addGifRefreshFooterWithClosure:(ZYRefreshClosure)closure {
-    if (!self.footer && !self.gifFooter) {
-        self.gifFooter = [ZYGifRefreshFooter footer];
-        self.gifFooter.stateLabelHidden = NO;
-        [self.gifFooter setTitle:@"左拉即可加载" forState:ZYRefreshStatePullCanRefresh];
-        [self.gifFooter setTitle:@"松开即可加载" forState:ZYRefreshStateReleaseCanRefresh];
-        [self.gifFooter setTitle:@"正在为您加载" forState:ZYRefreshStateRefreshing];
-        [self.gifFooter setTitle:@"已经是最后一页" forState:ZYRefreshStateNoMoreData];
-        self.gifFooter.statusLabel.textColor = [UIColor colorWithRed:90/255.0 green:90/255.0 blue:90/255.0 alpha:1];
-        NSMutableArray *idleImages = [NSMutableArray array];
-        for (NSUInteger i = 1; i <= 60; i++) {
-            UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ZYHorizontalRefresh.bundle/GifImages/dropdown_anim__000%zd", i]];
-            [idleImages addObject:image];
-        }
-        [self.gifFooter setImages:idleImages forState:ZYRefreshStatePullCanRefresh];
-        NSMutableArray *refreshingImages = [NSMutableArray array];
-        for (NSUInteger i = 1; i <= 3; i++) {
-            UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ZYHorizontalRefresh.bundle/GifImages/dropdown_loading_0%zd", i]];
-            [refreshingImages addObject:image];
-        }
-        [self.gifFooter setImages:refreshingImages forState:ZYRefreshStateRefreshing];
-        [self addSubview:self.gifFooter];
-        [self.gifFooter addRefreshFooterWithClosure:closure];
-    }
-}
+//- (void)addRefreshHeaderWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+//    ZYNormalRefreshHeader *header = [ZYNormalRefreshHeader headerWithRefreshingBlock:refreshingBlock];
+//    [self addSubview:header];
+//    self.zy_header = header;
+//}
+//
+//- (void)addRefreshFooterWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+//    ZYNormalRefreshFooter *footer = [ZYNormalRefreshFooter footerWithRefreshingBlock:refreshingBlock];
+//    [self addSubview:footer];
+//    self.zy_footer = footer;
+//}
+//
+//- (void)addRefreshHeaderNoStatusWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+//    ZYNormalRefreshHeader *header = [ZYNormalRefreshHeader headerWithRefreshingBlock:refreshingBlock];
+//    header.stateLabelHidden = YES;
+//    [self addSubview:header];
+//    self.zy_header = header;
+//}
+//
+//- (void)addRefreshFooterNoStatusWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+//    ZYNormalRefreshFooter *footer = [ZYNormalRefreshFooter footerWithRefreshingBlock:refreshingBlock];
+//    footer.stateLabelHidden = YES;
+//    [self addSubview:footer];
+//    self.zy_footer = footer;
+//}
 
-- (void)addGifRefreshHeaderNoStatusWithClosure:(ZYRefreshClosure)closure {
-    if (!self.header && !self.gifHeader) {
-        self.gifHeader = [ZYGifRefreshHeader header];
-        // 是否隐藏状态label
-        self.gifHeader.stateLabelHidden = YES;
-        NSMutableArray *_idleImages = [NSMutableArray array];
-        for (NSUInteger i = 1; i <= 60; i++) {
-            UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ZYHorizontalRefresh.bundle/GifImages/dropdown_anim__000%zd", i]];
-            [_idleImages addObject:image];
-        }
-        [self.gifHeader setImages:_idleImages forState:ZYRefreshStatePullCanRefresh];
-        NSMutableArray *_refreshingImages = [NSMutableArray array];
-        for (NSUInteger i = 1; i <= 3; i++) {
-            UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ZYHorizontalRefresh.bundle/GifImages/dropdown_loading_0%zd", i]];
-            [_refreshingImages addObject:image];
-        }
-        [self.gifHeader setImages:_refreshingImages forState:ZYRefreshStateRefreshing];
-        [self addSubview:self.gifHeader];
-        [self.gifHeader addRefreshHeaderWithClosure:closure];
-    }
-}
-
-- (void)addGifRefreshFooterNoStatusWithClosure:(ZYRefreshClosure)closure {
-    if (!self.footer && !self.gifFooter) {
-        self.gifFooter = [ZYGifRefreshFooter footer];
-        self.gifFooter.stateLabelHidden = YES;
-        [self.gifFooter setTitle:@"已经是最后一页" forState:ZYRefreshStateNoMoreData];
-        NSMutableArray *idleImages = [NSMutableArray array];
-        for (NSUInteger i = 1; i <= 60; i++) {
-            UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ZYHorizontalRefresh.bundle/GifImages/dropdown_anim__000%zd", i]];
-            [idleImages addObject:image];
-        }
-        [self.gifFooter setImages:idleImages forState:ZYRefreshStatePullCanRefresh];
-        NSMutableArray *refreshingImages = [NSMutableArray array];
-        for (NSUInteger i = 1; i <= 3; i++) {
-            UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ZYHorizontalRefresh.bundle/GifImages/dropdown_loading_0%zd", i]];
-            [refreshingImages addObject:image];
-        }
-        [self.gifFooter setImages:refreshingImages forState:ZYRefreshStateRefreshing];
-        [self addSubview:self.gifFooter];
-        [self.gifFooter addRefreshFooterWithClosure:closure];
-    }
-}
-
-- (void)addRefreshHeaderWithClosure:(ZYRefreshClosure)headerClosure
-        addRefreshFooterWithClosure:(ZYRefreshClosure)footerClosure {
-    [self addRefreshHeaderWithClosure:headerClosure];
-    [self addRefreshFooterWithClosure:footerClosure];
-}
-
-- (void)addGifRefreshHeaderWithClosure:(ZYRefreshClosure)headerClosure
-        addGifRefreshFooterWithClosure:(ZYRefreshClosure)footerClosure {
-    [self addGifRefreshHeaderWithClosure:headerClosure];
-    [self addGifRefreshFooterWithClosure:footerClosure];
-}
-
-- (void)addGifRefreshHeaderNoStatusWithClosure:(ZYRefreshClosure)headerClosure
-        addGifRefreshFooterNoStatusWithClosure:(ZYRefreshClosure)footerClosure {
-    [self addGifRefreshHeaderNoStatusWithClosure:headerClosure];
-    [self addGifRefreshFooterNoStatusWithClosure:footerClosure];
-}
+//- (void)addGifRefreshHeaderWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+//    ZYGifRefreshHeader *gifHeader = [ZYGifRefreshHeader headerWithRefreshingBlock:refreshingBlock];
+//    gifHeader.stateLabelHidden = NO;
+//    // 这里根据自己的需求来调整图片 by liang;
+//    NSMutableArray *_idleImages = [NSMutableArray array];
+//    for (NSUInteger i = 1; i <= 60; i++) {
+//        UIImage *image = [ZYRefreshConfig gifImageNamed:[NSString stringWithFormat:@"dropdown_anim__000%zd", i]];
+//        [_idleImages addObject:image];
+//    }
+//    [gifHeader setImages:_idleImages forState:ZYRefreshStatePullCanRefresh];
+//    NSMutableArray *_refreshingImages = [NSMutableArray array];
+//    for (NSUInteger i = 1; i <= 3; i++) {
+//        UIImage *image =[ZYRefreshConfig gifImageNamed:[NSString stringWithFormat:@"dropdown_loading_0%zd", i]];
+//        [_refreshingImages addObject:image];
+//    }
+//    [gifHeader setImages:_refreshingImages forState:ZYRefreshStateRefreshing];
+//    [self addSubview:gifHeader];
+//    self.zy_header = gifHeader;
+//}
+//
+//- (void)addGifRefreshFooterWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+//    ZYGifRefreshFooter *gifFooter = [ZYGifRefreshFooter footerWithRefreshingBlock:refreshingBlock];
+//    gifFooter.stateLabelHidden = NO;
+//    NSMutableArray *idleImages = [NSMutableArray array];
+//    for (NSUInteger i = 1; i <= 60; i++) {
+//        UIImage *image = [ZYRefreshConfig gifImageNamed:[NSString stringWithFormat:@"dropdown_anim__000%zd", i]];
+//        [idleImages addObject:image];
+//    }
+//    [gifFooter setImages:idleImages forState:ZYRefreshStatePullCanRefresh];
+//    NSMutableArray *refreshingImages = [NSMutableArray array];
+//    for (NSUInteger i = 1; i <= 3; i++) {
+//        UIImage *image = [ZYRefreshConfig gifImageNamed:[NSString stringWithFormat:@"dropdown_loading_0%zd", i]];
+//        [refreshingImages addObject:image];
+//    }
+//    [gifFooter setImages:refreshingImages forState:ZYRefreshStateRefreshing];
+//    [self addSubview:gifFooter];
+//    self.zy_footer = gifFooter;
+//}
+//
+//- (void)addGifRefreshHeaderNoStatusWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+//    ZYGifRefreshHeader *gifHeader = [ZYGifRefreshHeader headerWithRefreshingBlock:refreshingBlock];
+//    // 是否隐藏状态label
+//    gifHeader.stateLabelHidden = YES;
+//    NSMutableArray *_idleImages = [NSMutableArray array];
+//    for (NSUInteger i = 1; i <= 60; i++) {
+//        UIImage *image = [ZYRefreshConfig gifImageNamed:[NSString stringWithFormat:@"dropdown_anim__000%zd", i]];
+//        [_idleImages addObject:image];
+//    }
+//    [gifHeader setImages:_idleImages forState:ZYRefreshStatePullCanRefresh];
+//    NSMutableArray *_refreshingImages = [NSMutableArray array];
+//    for (NSUInteger i = 1; i <= 3; i++) {
+//        UIImage *image = [ZYRefreshConfig gifImageNamed:[NSString stringWithFormat:@"dropdown_loading_0%zd", i]];
+//        [_refreshingImages addObject:image];
+//    }
+//    [gifHeader setImages:_refreshingImages forState:ZYRefreshStateRefreshing];
+//    [self addSubview:gifHeader];
+//    self.zy_header = gifHeader;
+//}
+//
+//- (void)addGifRefreshFooterNoStatusWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+//    ZYGifRefreshFooter *gifFooter = [ZYGifRefreshFooter footerWithRefreshingBlock:refreshingBlock];
+//    gifFooter.stateLabelHidden = YES;
+//    NSMutableArray *idleImages = [NSMutableArray array];
+//    for (NSUInteger i = 1; i <= 60; i++) {
+//        UIImage *image = [ZYRefreshConfig gifImageNamed:[NSString stringWithFormat:@"dropdown_anim__000%zd", i]];
+//        [idleImages addObject:image];
+//    }
+//    [gifFooter setImages:idleImages forState:ZYRefreshStatePullCanRefresh];
+//    NSMutableArray *refreshingImages = [NSMutableArray array];
+//    for (NSUInteger i = 1; i <= 3; i++) {
+//        UIImage *image =  [ZYRefreshConfig gifImageNamed:[NSString stringWithFormat:@"dropdown_loading_0%zd", i]];
+//        [refreshingImages addObject:image];
+//    }
+//    [gifFooter setImages:refreshingImages forState:ZYRefreshStateRefreshing];
+//    [self addSubview:gifFooter];
+//    self.zy_footer = gifFooter;
+//}
 
 - (void)endRefreshing {
-    if (self.header) { [self.header endRefreshing]; }
-    if (self.footer) { [self.footer endRefreshing]; }
-    if (self.gifHeader) { [self.gifHeader endRefreshing]; }
-    if (self.gifFooter) { [self.gifFooter endRefreshing]; }
-}
-
-- (void)setIsLastPage:(BOOL)isLastPage {
-    if (self.footer) {
-        self.footer.isLastPage = isLastPage;
-        return;
-    }
-    self.gifFooter.isLastPage = isLastPage;
-}
-
-- (BOOL)isLastPage {
-    if (self.footer) {
-        return self.footer.isLastPage;
-    }
-    return self.gifFooter.isLastPage;
-}
-
-- (void)setRefreshHeaderBackgroundColor:(UIColor *)refreshHeaderBackgroundColor {
-    if (self.header) {
-        self.header.backgroundColor = refreshHeaderBackgroundColor;
-    }
-    if (self.gifHeader) {
-        self.gifHeader.backgroundColor = refreshHeaderBackgroundColor;
-    }
-}
-
-- (UIColor *)refreshHeaderBackgroundColor {
-    if (self.header) {
-        return self.header.backgroundColor;
-    }
-    if (self.gifHeader) {
-        return self.gifHeader.backgroundColor;
-    }
-    return [UIColor clearColor];
-}
-
-- (void)setRefreshFooterBackgroundColor:(UIColor *)refreshFooterBackgroundColor {
-    if (self.footer) {
-        self.footer.backgroundColor = refreshFooterBackgroundColor;
-    }
-    if (self.gifFooter) {
-        self.gifFooter.backgroundColor = refreshFooterBackgroundColor;
-    }
-}
-
-- (UIColor *)refreshFooterBackgroundColor {
-    if (self.footer) {
-        return self.footer.backgroundColor;
-    }
-    if (self.gifFooter) {
-        return self.gifFooter.backgroundColor;
-    }
-    return [UIColor clearColor];
-}
-
-- (void)setRefreshHeaderFont:(UIFont *)refreshHeaderFont {
-    if (self.header) {
-        self.header.font = refreshHeaderFont;
-    }
-    if (self.gifHeader) {
-        self.gifHeader.font = refreshHeaderFont;
-    }
-}
-
-- (UIFont *)refreshHeaderFont {
-    if (self.header) {
-        return self.header.font;
-    }
-    if (self.gifHeader) {
-        return self.gifHeader.font;
-    }
-    return [UIFont systemFontOfSize:13];
-}
-
-- (void)setRefreshHeaderTextColor:(UIColor *)refreshHeaderTextColor {
-    if (self.header) {
-        self.header.textColor = refreshHeaderTextColor;
-    }
-    if (self.gifHeader) {
-        self.gifHeader.textColor = refreshHeaderTextColor;
-    }
-}
-
-- (UIColor *)refreshHeaderTextColor {
-    if (self.header) {
-        return self.header.textColor;
-    }
-    if (self.gifHeader) {
-        return self.gifHeader.textColor;
-    }
-    return [UIColor clearColor];
-}
-
-- (void)setRefreshFooterFont:(UIFont *)refreshFooterFont {
-    if (self.footer) {
-        self.footer.font = refreshFooterFont;
-    }
-    if (self.gifFooter) {
-        self.gifFooter.font = refreshFooterFont;
-    }
-}
-
-- (UIFont *)refreshFooterFont {
-    if (self.footer) {
-        return self.footer.font;
-    }
-    if (self.gifFooter) {
-        return self.gifFooter.font;
-    }
-    return [UIFont systemFontOfSize:13];
-}
-
-- (void)setRefreshFooterTextColor:(UIColor *)refreshFooterTextColor {
-    if (self.footer) {
-        self.footer.textColor = refreshFooterTextColor;
-    }
-    if (self.gifFooter) {
-        self.gifFooter.textColor = refreshFooterTextColor;
-    }
-}
-
-- (UIColor *)refreshFooterTextColor {
-    if (self.footer) {
-        return self.footer.textColor;
-    }
-    if (self.gifFooter) {
-        return self.gifFooter.textColor;
-    }
-    return [UIColor clearColor];
+    if (self.zy_header) { [self.zy_header endRefreshing]; }
+    if (self.zy_footer) { [self.zy_footer endRefreshing]; }
 }
 
 @end

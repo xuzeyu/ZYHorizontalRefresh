@@ -6,7 +6,7 @@
 //
 
 #import "Collection_VC.h"
-#import "UIScrollView+ZYRefresh.h"
+#import "ZYRefreshHeader.h"
 
 #ifndef kScreenWidth
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
@@ -73,29 +73,57 @@
 #pragma mark - refresh control Using Example
 - (void)normalDemo {
     WeakSelf(self)
-    [_collectionView addRefreshHeaderWithClosure:^{
+    _collectionView.zy_header = [ZYNormalRefreshHeader headerWithRefreshingBlock:^{
         [weakSelf refreshData];
-    } addRefreshFooterWithClosure:^{
+    }];
+    _collectionView.zy_footer = [ZYNormalRefreshFooter footerWithRefreshingBlock:^{
         [weakSelf loadingData];
     }];
 }
 
 - (void)gifDemo {
     WeakSelf(self)
-    [_collectionView addGifRefreshHeaderWithClosure:^{
+    NSMutableArray *idleImages = [NSMutableArray array];
+    for (NSUInteger i = 1; i <= 60; i++) {
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"dropdown_anim__000%zd", i]];
+        [idleImages addObject:image];
+    }
+    NSMutableArray *refreshingImages = [NSMutableArray array];
+    for (NSUInteger i = 1; i <= 3; i++) {
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"dropdown_loading_0%zd", i]];
+        [refreshingImages addObject:image];
+    }
+    
+    _collectionView.zy_header = [ZYGifRefreshHeader headerWithPullCanRefreshImages:idleImages refreshingImages:refreshingImages refreshingBlock:^{
         [weakSelf refreshData];
-    } addGifRefreshFooterWithClosure:^{
+    }];
+    
+    _collectionView.zy_footer = [ZYGifRefreshFooter footerWithPullCanRefreshImages:idleImages refreshingImages:refreshingImages refreshingBlock:^{
         [weakSelf loadingData];
     }];
 }
 
 - (void)gifDemoWithoutText {
     WeakSelf(self)
-    [_collectionView addGifRefreshHeaderNoStatusWithClosure:^{
+    NSMutableArray *idleImages = [NSMutableArray array];
+    for (NSUInteger i = 1; i <= 60; i++) {
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"dropdown_anim__000%zd", i]];
+        [idleImages addObject:image];
+    }
+    NSMutableArray *refreshingImages = [NSMutableArray array];
+    for (NSUInteger i = 1; i <= 3; i++) {
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"dropdown_loading_0%zd", i]];
+        [refreshingImages addObject:image];
+    }
+    
+    _collectionView.zy_header = [ZYGifRefreshHeader headerWithPullCanRefreshImages:idleImages refreshingImages:refreshingImages refreshingBlock:^{
         [weakSelf refreshData];
-    } addGifRefreshFooterNoStatusWithClosure:^{
+    }];
+    
+    _collectionView.zy_footer = [ZYGifRefreshFooter footerWithPullCanRefreshImages:idleImages refreshingImages:refreshingImages refreshingBlock:^{
         [weakSelf loadingData];
     }];
+    _collectionView.zy_header.stateLabelHidden = _collectionView.zy_footer.stateLabelHidden = YES;
 }
 
 #pragma mark -
@@ -122,7 +150,7 @@
 - (void)refreshData {
     self.dataArray = [NSMutableArray arrayWithObjects:@1, @2, @3, nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.collectionView.isLastPage = NO;
+//        self.collectionView.isLastPage = NO;
         [self.collectionView endRefreshing];
         [self.collectionView reloadData];
     });
@@ -135,7 +163,7 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.collectionView endRefreshing];
         if (self.dataArray.count > 7) {
-            self.collectionView.isLastPage = YES;
+//            self.collectionView.isLastPage = YES;
         }
         [self.collectionView reloadData];
     });

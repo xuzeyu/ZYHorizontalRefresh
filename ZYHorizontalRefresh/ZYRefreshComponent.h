@@ -1,5 +1,5 @@
 //
-//  ZYBaseRefreshControl.h
+//  ZYRefreshComponent.h
 //  ZYRefresh
 //
 //  Created by xuzy on 24/2/2.
@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UIView+ZYFrame.h"
 #import "Masonry.h"
+#import "ZYRefreshConst.h"
 #import "ZYRefreshConfig.h"
 
 typedef NS_ENUM(NSUInteger, ZYRefreshState) {
@@ -22,7 +23,7 @@ static NSString *const kContentOffsetKey = @"contentOffset";
 static NSString *const kContentSizeKey = @"contentSize";
 
 /// 刷新控件的宽度，在这里调整
-static CGFloat const kZYRefreshControlWidth = 44.0;
+static CGFloat const kZYRefreshComponentWidth = 44.0;
 static CGFloat const kZYRefreshFastAnimationDuration = 0.25;
 static CGFloat const kZYRefreshSlowAnimationDuration = 0.4;
 
@@ -30,7 +31,7 @@ static CGFloat const kZYRefreshSlowAnimationDuration = 0.4;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-@interface ZYBaseRefreshControl : UIView
+@interface ZYRefreshComponent : UIView
 
 /// 基础控件
 @property (nonatomic, strong) UIView *centerView;
@@ -68,10 +69,13 @@ static CGFloat const kZYRefreshSlowAnimationDuration = 0.4;
 /// 原边距
 @property (nonatomic, assign) UIEdgeInsets originInsets;
 
-- (void)endRefreshing;
-
 /// 是否隐藏状态label，注意：如果要隐藏状态label，要先设置这个属性
 @property (nonatomic, assign) BOOL stateLabelHidden;
+
+/// 正在刷新的回调
+@property (copy, nonatomic, nullable) ZYRefreshComponentAction refreshingBlock;
+
+- (void)endRefreshing;
 
 @end
 

@@ -6,12 +6,10 @@
 //  Copyright © 2024年 xuzy. All rights reserved.
 //
 
-#import "ZYBaseRefreshControl.h"
+#import "ZYRefreshComponent.h"
 
-@interface ZYNormalRefreshHeader : ZYBaseRefreshControl
+@interface ZYNormalRefreshHeader : ZYRefreshComponent
 
-+ (instancetype)header;
-
-- (void)addRefreshHeaderWithClosure:(ZYRefreshClosure)closure;
++ (instancetype)headerWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock;
 
 @end

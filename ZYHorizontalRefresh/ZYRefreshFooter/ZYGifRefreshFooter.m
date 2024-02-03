@@ -9,15 +9,36 @@
 #import "ZYGifRefreshFooter.h"
 
 @interface ZYGifRefreshFooter ()
-
 @property (nonatomic, strong) NSMutableDictionary *imagesDic;
-
 @end
 
 @implementation ZYGifRefreshFooter
 
-+ (instancetype)footer {
-    return [[ZYGifRefreshFooter alloc] init];
+@synthesize stateLabelHidden = _stateLabelHidden;
+
++ (instancetype)footerWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+    return [self footerWithPullCanRefreshImages:nil refreshingImages:nil refreshingBlock:refreshingBlock];
+}
+
++ (instancetype)footerWithPullCanRefreshImages:(NSArray *)pullCanRefreshImages refreshingImages:(NSArray *)refreshingImages refreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+    ZYGifRefreshFooter *footer = [[ZYGifRefreshFooter alloc] init];
+    [footer setTitle:[ZYRefreshConfig config].footerPullCanRefreshText forState:ZYRefreshStatePullCanRefresh];
+    [footer setTitle:[ZYRefreshConfig config].footerReleaseCanRefreshText forState:ZYRefreshStateReleaseCanRefresh];
+    [footer setTitle:[ZYRefreshConfig config].footerRefreshingText forState:ZYRefreshStateRefreshing];
+    [footer setTitle:[ZYRefreshConfig config].footerNoMoreDataText forState:ZYRefreshStateNoMoreData];
+    footer.statusLabel.textColor = [ZYRefreshConfig config].statusTextColor;
+    footer.refreshingBlock = refreshingBlock;
+    if (pullCanRefreshImages) {
+        [footer setImages:pullCanRefreshImages forState:ZYRefreshStatePullCanRefresh];
+    }else if ([ZYRefreshConfig config].pullCanRefreshImages) {
+        [footer setImages:pullCanRefreshImages forState:ZYRefreshStatePullCanRefresh];
+    }
+    if (refreshingImages) {
+        [footer setImages:refreshingImages forState:ZYRefreshStateRefreshing];
+    }else if ([ZYRefreshConfig config].pullCanRefreshImages) {
+        [footer setImages:refreshingImages forState:ZYRefreshStateRefreshing];
+    }
+    return footer;
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview {
@@ -36,10 +57,16 @@
 //        self.gifImageView.center = CGPointMake(self.width / 2, self.height / 2 + 120);
 //    }
     
+    self.stateLabelHidden = self.stateLabelHidden;
+}
+
+- (void)setStateLabelHidden:(BOOL)stateLabelHidden {
+    _stateLabelHidden  = stateLabelHidden;
+    
     if (self.stateLabelHidden) {
         [self.gifImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
-        }];;
+        }];
     }else {
         [self.gifImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.statusLabel.mas_bottom).offset(15);
@@ -59,7 +86,7 @@
             self.gifImageView.hidden = NO;
             break;
         }
-        case ZYRefreshStateReleaseCanRefresh:
+        case     ZYRefreshStateReleaseCanRefresh:
         case ZYRefreshStateRefreshing: {
             [self.gifImageView stopAnimating];
             if (images.count == 1) {

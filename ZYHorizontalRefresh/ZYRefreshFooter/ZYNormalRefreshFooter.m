@@ -10,14 +10,20 @@
 
 @interface ZYNormalRefreshFooter ()
 
-@property (nonatomic, copy) ZYRefreshClosure closure;
-
 @end
 
 @implementation ZYNormalRefreshFooter
 
-+ (instancetype)footer {
-    return [[ZYNormalRefreshFooter alloc] init];
++ (instancetype)footerWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+    ZYNormalRefreshFooter *footer = [[ZYNormalRefreshFooter alloc] init];
+    [footer setTitle:[ZYRefreshConfig config].footerPullCanRefreshText forState:ZYRefreshStatePullCanRefresh];
+    [footer setTitle:[ZYRefreshConfig config].footerReleaseCanRefreshText forState:ZYRefreshStateReleaseCanRefresh];
+    [footer setTitle:[ZYRefreshConfig config].footerRefreshingText forState:ZYRefreshStateRefreshing];
+    [footer setTitle:[ZYRefreshConfig config].footerNoMoreDataText forState:ZYRefreshStateNoMoreData];
+    footer.statusLabel.textColor = [ZYRefreshConfig config].statusTextColor;
+    footer.imageView.tintColor = [ZYRefreshConfig config].imageViewColor;
+    footer.refreshingBlock = refreshingBlock;
+    return footer;
 }
 
 - (instancetype)init {
@@ -39,7 +45,7 @@
         [newSuperview addObserver:self forKeyPath:kContentOffsetKey options:NSKeyValueObservingOptionNew context:nil];
         
         self.scrollView = (UIScrollView *)newSuperview;
-        self.size = CGSizeMake(kZYRefreshControlWidth, newSuperview.height);
+        self.size = CGSizeMake(kZYRefreshComponentWidth, newSuperview.height);
         if (self.scrollView.contentSize.width >= self.scrollView.width) {
             self.left = self.scrollView.contentSize.width;
         } else {
@@ -50,6 +56,21 @@
         self.originInsets = self.scrollView.contentInset;
         self.state = ZYRefreshStatePullCanRefresh;
         self.statusLabel.text = self.pullCanRefreshText;
+        self.stateLabelHidden = self.stateLabelHidden;
+    }
+}
+
+- (void)setStateLabelHidden:(BOOL)stateLabelHidden {
+    [super setStateLabelHidden:stateLabelHidden];
+    
+    if (self.stateLabelHidden) {
+        [self.activityView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.centerView);
+        }];
+    }else {
+        [self.activityView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.imageView);
+        }];
     }
 }
 
@@ -85,12 +106,12 @@
         
         if (self.state == ZYRefreshStatePullCanRefresh && contentOffsetX > releaseToRefreshOffsetX) {
             // 转为松开即可刷新状态
-            self.state = ZYRefreshStateReleaseCanRefresh;
-        } else if (self.state == ZYRefreshStateReleaseCanRefresh && contentOffsetX <= releaseToRefreshOffsetX) {
+            self.state =     ZYRefreshStateReleaseCanRefresh;
+        } else if (self.state ==     ZYRefreshStateReleaseCanRefresh && contentOffsetX <= releaseToRefreshOffsetX) {
             // 转为拖拽可以刷新状态
             self.state = ZYRefreshStatePullCanRefresh;
         }
-    } else if (self.state == ZYRefreshStateReleaseCanRefresh && !self.scrollView.isDragging) {
+    } else if (self.state ==     ZYRefreshStateReleaseCanRefresh && !self.scrollView.isDragging) {
         // 开始刷新
         self.state = ZYRefreshStateRefreshing;
         self.pullingPercent = 1.f;
@@ -100,7 +121,7 @@
         self.scrollView.contentInset = insets;
         
         // 回调
-        BLOCK_EXE(_closure)
+        BLOCK_EXE(self.refreshingBlock)
     } else {
         self.pullingPercent = (contentOffsetX - appearOffsetX) / self.width;
     }
@@ -113,13 +134,13 @@
         case ZYRefreshStatePullCanRefresh: {
             self.imageView.hidden = NO;
             self.activityView.hidden = YES;
-            self.imageView.image = [UIImage imageNamed:@"ZYHorizontalRefresh.bundle/arrow.png"];
+            self.imageView.image = [[ZYRefreshConfig imageNamed:@"arrow.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             [UIView animateWithDuration:kZYRefreshFastAnimationDuration animations:^{
                 self.imageView.transform = CGAffineTransformMakeRotation(0);
             }];
             break;
         }
-        case ZYRefreshStateReleaseCanRefresh: {
+        case     ZYRefreshStateReleaseCanRefresh: {
             self.imageView.hidden = NO;
             self.activityView.hidden = YES;
             [UIView animateWithDuration:kZYRefreshFastAnimationDuration animations:^{
@@ -152,10 +173,6 @@
     self.state = ZYRefreshStatePullCanRefresh;
 }
 
-- (void)addRefreshFooterWithClosure:(ZYRefreshClosure)closure {
-    self.closure = closure;
-}
-
 - (void)setIsLastPage:(BOOL)isLastPage {
     _isLastPage = isLastPage;
     if (_isLastPage) {
@@ -164,13 +181,5 @@
         self.state = ZYRefreshStatePullCanRefresh;
     }
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

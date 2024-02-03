@@ -1,14 +1,14 @@
 //
-//  ZYBaseRefreshControl.m
+//  ZYRefreshComponent.m
 //  ZYRefresh
 //
 //  Created by xuzy on 24/2/2.
 //  Copyright © 2024年 xuzy. All rights reserved.
 //
 
-#import "ZYBaseRefreshControl.h"
+#import "ZYRefreshComponent.h"
 
-@implementation ZYBaseRefreshControl
+@implementation ZYRefreshComponent
 
 - (instancetype)init {
     self = [super init];
@@ -56,7 +56,7 @@
             self.statusLabel.text = self.pullCanRefreshText;
             break;
         }
-        case ZYRefreshStateReleaseCanRefresh: {
+        case     ZYRefreshStateReleaseCanRefresh: {
             self.statusLabel.text = self.releaseCanRefreshText;
             break;
         }
@@ -81,7 +81,7 @@
             self.pullCanRefreshText = linefeedsTitle;
             break;
         }
-        case ZYRefreshStateReleaseCanRefresh: {
+        case     ZYRefreshStateReleaseCanRefresh: {
             self.releaseCanRefreshText = linefeedsTitle;
             break;
         }
@@ -157,7 +157,7 @@
 #pragma mark - Other
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.size = CGSizeMake(kZYRefreshControlWidth, self.superview.height);
+    self.size = CGSizeMake(kZYRefreshComponentWidth, self.superview.height);
 }
 
 @end

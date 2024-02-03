@@ -6,15 +6,13 @@
 //  Copyright © 2024年 xuzy. All rights reserved.
 //
 
-#import "ZYBaseRefreshControl.h"
+#import "ZYRefreshComponent.h"
 
-@interface ZYNormalRefreshFooter : ZYBaseRefreshControl
+@interface ZYNormalRefreshFooter : ZYRefreshComponent
 
-+ (instancetype)footer;
++ (instancetype)footerWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock;
 
 // 如果是最后一页，则禁止刷新动作
 @property (nonatomic, assign) BOOL isLastPage;
-
-- (void)addRefreshFooterWithClosure:(ZYRefreshClosure)closure;
 
 @end

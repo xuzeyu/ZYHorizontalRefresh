@@ -9,15 +9,35 @@
 #import "ZYGifRefreshHeader.h"
 
 @interface ZYGifRefreshHeader ()
-
 @property (nonatomic, strong) NSMutableDictionary *imagesDic;
-
 @end
 
 @implementation ZYGifRefreshHeader
 
-+ (instancetype)header {
-    return [[ZYGifRefreshHeader alloc] init];
+@synthesize stateLabelHidden = _stateLabelHidden;
+
++ (instancetype)headerWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+    return [self headerWithPullCanRefreshImages:nil refreshingImages:nil refreshingBlock:refreshingBlock];
+}
+
++ (instancetype)headerWithPullCanRefreshImages:(NSArray *)pullCanRefreshImages refreshingImages:(NSArray *)refreshingImages refreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
+    ZYGifRefreshHeader *header = [[ZYGifRefreshHeader alloc] init];
+    [header setTitle:[ZYRefreshConfig config].headerPullCanRefreshText forState:ZYRefreshStatePullCanRefresh];
+    [header setTitle:[ZYRefreshConfig config].headerReleaseCanRefreshText forState:ZYRefreshStateReleaseCanRefresh];
+    [header setTitle:[ZYRefreshConfig config].headerRefreshingText forState:ZYRefreshStateRefreshing];
+    header.statusLabel.textColor = [ZYRefreshConfig config].statusTextColor;
+    header.refreshingBlock = refreshingBlock;
+    if (pullCanRefreshImages) {
+        [header setImages:pullCanRefreshImages forState:ZYRefreshStatePullCanRefresh];
+    }else if ([ZYRefreshConfig config].pullCanRefreshImages) {
+        [header setImages:pullCanRefreshImages forState:ZYRefreshStatePullCanRefresh];
+    }
+    if (refreshingImages) {
+        [header setImages:refreshingImages forState:ZYRefreshStateRefreshing];
+    }else if ([ZYRefreshConfig config].pullCanRefreshImages) {
+        [header setImages:refreshingImages forState:ZYRefreshStateRefreshing];
+    }
+    return header;
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview {
@@ -35,6 +55,12 @@
 //    if (!self.stateLabelHidden) {
 //        self.gifImageView.center = CGPointMake(self.width / 2, self.height / 2 + 120);
 //    }
+    self.stateLabelHidden = self.stateLabelHidden;
+}
+
+- (void)setStateLabelHidden:(BOOL)stateLabelHidden {
+    _stateLabelHidden  = stateLabelHidden;
+    
     if (self.stateLabelHidden) {
         [self.gifImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
@@ -59,7 +85,7 @@
             self.gifImageView.hidden = NO;
             break;
         }
-        case ZYRefreshStateReleaseCanRefresh:
+        case     ZYRefreshStateReleaseCanRefresh:
         case ZYRefreshStateRefreshing: {
             [self.gifImageView stopAnimating];
             if (images.count == 1) {

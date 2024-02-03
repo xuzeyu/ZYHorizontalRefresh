@@ -1,42 +1,46 @@
 //
-//  ZYRefreshConfig.m
-//  ZYRefresh
+//  ZYRefreshConfig.h
+//  Example
 //
-//  Created by xuzy on 24/2/2.
-//  Copyright © 2024年 xuzy. All rights reserved.
+//  Created by XUZY on 2024/2/3.
 //
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/* * * * * * * * * define and typedef  * * * * * * * * */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * */
+#import <UIKit/UIKit.h>
 
-typedef void (^ZYRefreshClosure) ();
+NS_ASSUME_NONNULL_BEGIN
+//默认值
+@interface ZYRefreshConfig : NSObject
 
-#ifndef WeakSelf
-#define WeakSelf(self) __weak typeof(self) weakSelf = self;
-#endif
+@property (nonatomic, strong) UIColor *statusTextColor;
+@property (nonatomic, strong) UIColor *imageViewColor;
 
-#ifndef StrongSelf
-#define StrongSelf(weakSelf) __strong typeof(weakSelf) strongSelf = weakSelf;
-#endif
+//刷新宽度
+@property (nonatomic, assign) CGFloat refreshComponentWidth; //默认44.0
+@property (nonatomic, assign) CGFloat refreshFastAnimationDuration;//默认0.25秒
+@property (nonatomic, assign) CGFloat refreshSlowAnimationDuration;//默认0.4秒
 
-#ifndef YYSYNTH_DYNAMIC_PROPERTY_OBJECT
-#define YYSYNTH_DYNAMIC_PROPERTY_OBJECT(_getter_, _setter_, _association_, _type_) \
-- (void)_setter_ : (_type_)object { \
-    [self willChangeValueForKey:@#_getter_]; \
-    objc_setAssociatedObject(self, _cmd, object, OBJC_ASSOCIATION_ ## _association_); \
-    [self didChangeValueForKey:@#_getter_]; \
-} \
-- (_type_)_getter_ { \
-    return objc_getAssociatedObject(self, @selector(_setter_:)); \
-}
-#endif
+//刷新文字
+@property (nonatomic, strong) NSString *headerPullCanRefreshText;
+@property (nonatomic, strong) NSString *headerReleaseCanRefreshText;
+@property (nonatomic, strong) NSString *headerRefreshingText;
 
-#ifndef BLOCK_EXE
-#define BLOCK_EXE(block, ...) \
-if (block) { \
-    block(__VA_ARGS__); \
-} 
-#endif
+@property (nonatomic, strong) NSString *footerPullCanRefreshText;
+@property (nonatomic, strong) NSString *footerReleaseCanRefreshText;
+@property (nonatomic, strong) NSString *footerRefreshingText;
+@property (nonatomic, strong) NSString *footerNoMoreDataText;
 
+//gif默认图片
+@property (nonatomic, strong) NSArray <UIImage *>*pullCanRefreshImages;
+@property (nonatomic, strong) NSArray <UIImage *>*refreshingImages;
 
+//路径
+@property (nonatomic, strong) NSString *imagePath;
+@property (nonatomic, strong) NSString *gifPath;
+
+//方法
++ (instancetype)config;
++ (UIImage *)imageNamed:(NSString *)imageName;//获取图片
++ (UIImage *)gifImageNamed:(NSString *)imageName;
+@end
+
+NS_ASSUME_NONNULL_END

@@ -10,7 +10,9 @@
 
 @interface ZYGifRefreshFooter : ZYNormalRefreshFooter
 
-+ (instancetype)footer;
++ (instancetype)footerWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock;
+
++ (instancetype)footerWithPullCanRefreshImages:(NSArray *)pullCanRefreshImages refreshingImages:(NSArray *)refreshingImages refreshingBlock:(ZYRefreshComponentAction)refreshingBlock;
 
 - (void)setImages:(NSArray *)images forState:(ZYRefreshState)state;
 
