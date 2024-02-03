@@ -77,6 +77,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:kContentSizeKey]) {
         // 刷新完成后调整控件位置
+        self.size = CGSizeMake([ZYRefreshConfig config].refreshComponentWidth, self.superview.height);
         self.left = self.scrollView.contentSize.width;
     } else if ([keyPath isEqualToString:kContentOffsetKey]) {
         if (self.state == ZYRefreshStateRefreshing || self.state == ZYRefreshStateNoMoreData) {
@@ -106,12 +107,12 @@
         
         if (self.state == ZYRefreshStatePullCanRefresh && contentOffsetX > releaseToRefreshOffsetX) {
             // 转为松开即可刷新状态
-            self.state =     ZYRefreshStateReleaseCanRefresh;
-        } else if (self.state ==     ZYRefreshStateReleaseCanRefresh && contentOffsetX <= releaseToRefreshOffsetX) {
+            self.state = ZYRefreshStateReleaseCanRefresh;
+        } else if (self.state == ZYRefreshStateReleaseCanRefresh && contentOffsetX <= releaseToRefreshOffsetX) {
             // 转为拖拽可以刷新状态
             self.state = ZYRefreshStatePullCanRefresh;
         }
-    } else if (self.state ==     ZYRefreshStateReleaseCanRefresh && !self.scrollView.isDragging) {
+    } else if (self.state == ZYRefreshStateReleaseCanRefresh && !self.scrollView.isDragging) {
         // 开始刷新
         self.state = ZYRefreshStateRefreshing;
         self.pullingPercent = 1.f;
@@ -138,34 +139,52 @@
             [UIView animateWithDuration:[ZYRefreshConfig config].refreshFastAnimationDuration animations:^{
                 self.imageView.transform = CGAffineTransformMakeRotation(0);
             }];
+            [self hiddenImageView:NO];
             break;
         }
-        case     ZYRefreshStateReleaseCanRefresh: {
+        case ZYRefreshStateReleaseCanRefresh: {
             self.imageView.hidden = NO;
             self.activityView.hidden = YES;
             [UIView animateWithDuration:[ZYRefreshConfig config].refreshFastAnimationDuration animations:^{
                 self.imageView.transform = CGAffineTransformMakeRotation(M_PI);
             }];
+            [self hiddenImageView:NO];
             break;
         }
         case ZYRefreshStateRefreshing: {
             self.imageView.hidden = YES;
             self.activityView.hidden = NO;
             [self.activityView startAnimating];
+            [self hiddenImageView:NO];
             break;
         }
         case ZYRefreshStateNoMoreData: {
             self.imageView.hidden = YES;
             self.activityView.hidden = YES;
             [self.activityView stopAnimating];
+            [self hiddenImageView:YES];
             break;
+        }
+    }
+}
+
+- (void)hiddenImageView:(BOOL)hidden {
+    if (self.statusLabel.superview) {
+        if (hidden) {
+            [self.statusLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.bottom.mas_equalTo(0).priorityHigh();
+            }];
+        }else {
+            [self.statusLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.bottom.mas_equalTo(0).priorityLow();
+            }];
         }
     }
 }
 
 - (void)endRefreshing {
     [UIView animateWithDuration:[ZYRefreshConfig config].refreshFastAnimationDuration animations:^{
-        self.scrollView.contentInset = self.originInsets;        
+        self.scrollView.contentInset = self.originInsets;
     }];
     if (self.state == ZYRefreshStateNoMoreData) {
         return;

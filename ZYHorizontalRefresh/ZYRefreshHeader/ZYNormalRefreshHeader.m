@@ -88,7 +88,7 @@
         if (self.state == ZYRefreshStatePullCanRefresh && contentOffsetX < releaseToRefreshOffsetX) {
             // 转为松开即可刷新状态
             self.state = ZYRefreshStateReleaseCanRefresh;
-        } else if (self.state ==     ZYRefreshStateReleaseCanRefresh && contentOffsetX >= releaseToRefreshOffsetX) {
+        } else if (self.state == ZYRefreshStateReleaseCanRefresh && contentOffsetX >= releaseToRefreshOffsetX) {
             // 转为拖拽可以刷新状态
             self.state = ZYRefreshStatePullCanRefresh;
         }
@@ -119,27 +119,45 @@
             [UIView animateWithDuration:[ZYRefreshConfig config].refreshFastAnimationDuration animations:^{
                 self.imageView.transform = CGAffineTransformMakeRotation(0);
             }];
+            [self hiddenImageView:NO];
             break;
         }
-        case     ZYRefreshStateReleaseCanRefresh: {
+        case ZYRefreshStateReleaseCanRefresh: {
             self.imageView.hidden = NO;
             self.activityView.hidden = YES;
             [UIView animateWithDuration:[ZYRefreshConfig config].refreshFastAnimationDuration animations:^{
                 self.imageView.transform = CGAffineTransformMakeRotation(M_PI);
             }];
+            [self hiddenImageView:NO];
             break;
         }
         case ZYRefreshStateRefreshing: {
             self.imageView.hidden = YES;
             self.activityView.hidden = NO;
             [self.activityView startAnimating];
+            [self hiddenImageView:NO];
             break;
         }
         case ZYRefreshStateNoMoreData: {
             self.imageView.hidden = YES;
             self.activityView.hidden = YES;
             [self.activityView stopAnimating];
+            [self hiddenImageView:YES];
             break;
+        }
+    }
+}
+
+- (void)hiddenImageView:(BOOL)hidden {
+    if (self.statusLabel.superview) {
+        if (hidden) {
+            [self.statusLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.bottom.mas_equalTo(0).priorityHigh();
+            }];
+        }else {
+            [self.statusLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.bottom.mas_equalTo(0).priorityLow();
+            }];
         }
     }
 }
