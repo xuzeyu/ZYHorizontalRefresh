@@ -90,7 +90,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.source_files  = "ZYHorizontalRefresh/**/*"
-  s.resource     = 'ZYHorizontalRefresh/ZYHorizontalRefresh.bundle'
+  spec.resource     = 'ZYHorizontalRefresh/ZYHorizontalRefresh.bundle'
   # spec.exclude_files = "Classes/Exclude"
 
   # spec.public_header_files = "Classes/**/*.h"
