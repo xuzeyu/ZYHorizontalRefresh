@@ -79,10 +79,12 @@
         [weakSelf refreshData];
     }];
     _collectionView.zy_header = header;
+    
     ZYNormalRefreshFooter *footer = [ZYNormalRefreshFooter footerWithRefreshingBlock:^{
         [weakSelf loadingData];
     }];
     _collectionView.zy_footer = footer;
+    footer.isLastPage = YES;
 }
 
 - (void)gifDemo {
