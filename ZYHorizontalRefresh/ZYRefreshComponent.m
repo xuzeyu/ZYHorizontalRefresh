@@ -36,7 +36,7 @@
             make.top.equalTo(weakSelf.statusLabel.mas_bottom).offset(10);
             make.size.mas_equalTo(CGSizeMake(40, 40));
             make.centerX.equalTo(self.statusLabel);
-            make.bottom.mas_equalTo(0);
+            make.bottom.mas_equalTo(0).priorityMedium();
         }];
         
         [self.activityView mas_makeConstraints:^(MASConstraintMaker *make) {
