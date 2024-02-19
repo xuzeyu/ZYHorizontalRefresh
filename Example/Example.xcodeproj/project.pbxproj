@@ -29,6 +29,7 @@
 		FDC6EBC92906211F008CAA42 /* ExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC6EBC82906211F008CAA42 /* ExampleTests.m */; };
 		FDC6EBD32906211F008CAA42 /* ExampleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC6EBD22906211F008CAA42 /* ExampleUITests.m */; };
 		FDC6EBD52906211F008CAA42 /* ExampleUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC6EBD42906211F008CAA42 /* ExampleUITestsLaunchTests.m */; };
+		FDF4ABBD2B82FAFA0030CF31 /* ZYNormalRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF4ABBC2B82FAFA0030CF31 /* ZYNormalRefresh.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,8 @@
 		FDC6EBCE2906211F008CAA42 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDC6EBD22906211F008CAA42 /* ExampleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExampleUITests.m; sourceTree = "<group>"; };
 		FDC6EBD42906211F008CAA42 /* ExampleUITestsLaunchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExampleUITestsLaunchTests.m; sourceTree = "<group>"; };
+		FDF4ABBB2B82FAFA0030CF31 /* ZYNormalRefresh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYNormalRefresh.h; sourceTree = "<group>"; };
+		FDF4ABBC2B82FAFA0030CF31 /* ZYNormalRefresh.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYNormalRefresh.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,10 +142,10 @@
 		FD5070C52B6CE02E00099E3C /* ZYHorizontalRefresh */ = {
 			isa = PBXGroup;
 			children = (
+				FDF4ABBA2B82F9360030CF31 /* GifRefresh */,
+				FDF4ABB92B82F9200030CF31 /* NormalRefresh */,
 				FD5071952B6CE0CC00099E3C /* ZYRefreshComponent.h */,
 				FD50718F2B6CE0CC00099E3C /* ZYRefreshComponent.m */,
-				FD5071902B6CE0CC00099E3C /* ZYRefreshFooter */,
-				FD5071852B6CE0CC00099E3C /* ZYRefreshHeader */,
 				FD50718A2B6CE0CC00099E3C /* UIScrollView+ZYRefresh.h */,
 				FD50718D2B6CE0CC00099E3C /* UIScrollView+ZYRefresh.m */,
 				FD50718C2B6CE0CC00099E3C /* UIView+ZYFrame.h */,
@@ -156,28 +159,6 @@
 			);
 			name = ZYHorizontalRefresh;
 			path = ../../ZYHorizontalRefresh;
-			sourceTree = "<group>";
-		};
-		FD5071852B6CE0CC00099E3C /* ZYRefreshHeader */ = {
-			isa = PBXGroup;
-			children = (
-				FD5071872B6CE0CC00099E3C /* ZYGifRefreshHeader.h */,
-				FD5071892B6CE0CC00099E3C /* ZYGifRefreshHeader.m */,
-				FD5071882B6CE0CC00099E3C /* ZYNormalRefreshHeader.h */,
-				FD5071862B6CE0CC00099E3C /* ZYNormalRefreshHeader.m */,
-			);
-			path = ZYRefreshHeader;
-			sourceTree = "<group>";
-		};
-		FD5071902B6CE0CC00099E3C /* ZYRefreshFooter */ = {
-			isa = PBXGroup;
-			children = (
-				FD5071922B6CE0CC00099E3C /* ZYGifRefreshFooter.h */,
-				FD5071942B6CE0CC00099E3C /* ZYGifRefreshFooter.m */,
-				FD5071932B6CE0CC00099E3C /* ZYNormalRefreshFooter.h */,
-				FD5071912B6CE0CC00099E3C /* ZYNormalRefreshFooter.m */,
-			);
-			path = ZYRefreshFooter;
 			sourceTree = "<group>";
 		};
 		FDC6EBA02906211E008CAA42 = {
@@ -238,6 +219,30 @@
 				FDC6EBD42906211F008CAA42 /* ExampleUITestsLaunchTests.m */,
 			);
 			path = ExampleUITests;
+			sourceTree = "<group>";
+		};
+		FDF4ABB92B82F9200030CF31 /* NormalRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				FD5071932B6CE0CC00099E3C /* ZYNormalRefreshFooter.h */,
+				FD5071912B6CE0CC00099E3C /* ZYNormalRefreshFooter.m */,
+				FD5071882B6CE0CC00099E3C /* ZYNormalRefreshHeader.h */,
+				FD5071862B6CE0CC00099E3C /* ZYNormalRefreshHeader.m */,
+				FDF4ABBB2B82FAFA0030CF31 /* ZYNormalRefresh.h */,
+				FDF4ABBC2B82FAFA0030CF31 /* ZYNormalRefresh.m */,
+			);
+			path = NormalRefresh;
+			sourceTree = "<group>";
+		};
+		FDF4ABBA2B82F9360030CF31 /* GifRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				FD5071922B6CE0CC00099E3C /* ZYGifRefreshFooter.h */,
+				FD5071942B6CE0CC00099E3C /* ZYGifRefreshFooter.m */,
+				FD5071872B6CE0CC00099E3C /* ZYGifRefreshHeader.h */,
+				FD5071892B6CE0CC00099E3C /* ZYGifRefreshHeader.m */,
+			);
+			path = GifRefresh;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -403,6 +408,7 @@
 				FD5071962B6CE0CC00099E3C /* ZYNormalRefreshHeader.m in Sources */,
 				FDC6EBAE2906211E008CAA42 /* AppDelegate.m in Sources */,
 				FDC6EBBF2906211E008CAA42 /* main.m in Sources */,
+				FDF4ABBD2B82FAFA0030CF31 /* ZYNormalRefresh.m in Sources */,
 				FD50719A2B6CE0CC00099E3C /* UIView+ZYFrame.m in Sources */,
 				FD5071972B6CE0CC00099E3C /* ZYGifRefreshHeader.m in Sources */,
 				FD76E0C42B6DD2450097F1F9 /* ZYRefreshConfig.m in Sources */,

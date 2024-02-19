@@ -31,9 +31,6 @@ static NSString *const kContentSizeKey = @"contentSize";
 /// 基础控件
 @property (nonatomic, strong) UIView *centerView;
 @property (nonatomic, strong) UILabel *statusLabel;
-@property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) UIActivityIndicatorView *activityView;
-@property (nonatomic, strong) UIImageView *gifImageView;
 
 /**
  * 状态显示文字
@@ -70,6 +67,7 @@ static NSString *const kContentSizeKey = @"contentSize";
 /// 正在刷新的回调
 @property (nonatomic, copy, nullable) ZYRefreshComponentAction refreshingBlock;
 
+- (void)initViews:(ZYRefreshState)refreshState;
 - (void)beginRefreshing;
 - (void)endRefreshing;
 

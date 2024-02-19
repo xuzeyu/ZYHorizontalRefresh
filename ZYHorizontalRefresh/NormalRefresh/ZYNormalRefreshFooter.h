@@ -6,9 +6,9 @@
 //  Copyright © 2024年 xuzy. All rights reserved.
 //
 
-#import "ZYRefreshComponent.h"
+#import "ZYNormalRefresh.h"
 
-@interface ZYNormalRefreshFooter : ZYRefreshComponent
+@interface ZYNormalRefreshFooter : ZYNormalRefresh
 
 + (instancetype)footerWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock;
 

@@ -8,6 +8,10 @@
 
 #import "ZYRefreshComponent.h"
 
+@interface ZYRefreshComponent ()
+
+@end
+
 @implementation ZYRefreshComponent
 
 - (instancetype)init {
@@ -15,35 +19,18 @@
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.state = ZYRefreshStatePullCanRefresh;
-        
-        [self addSubview:self.centerView];
-        [self.centerView addSubview:self.statusLabel];
-        [self.centerView addSubview:self.imageView];
-        [self.centerView addSubview:self.activityView];
-        
-        self.stateLabelHidden = NO;
-        
-        WeakSelf(self)
-        [self.centerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(weakSelf);
-        }];
-        
-        [self.statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.top.mas_equalTo(0);
-        }];
-        
-        [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(weakSelf.statusLabel.mas_bottom).offset(10);
-            make.size.mas_equalTo(CGSizeMake(40, 40));
-            make.centerX.equalTo(self.statusLabel);
-            make.bottom.mas_equalTo(0).priorityMedium();
-        }];
-        
-        [self.activityView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(weakSelf.imageView);
-        }];        
     }
     return self;
+}
+
+- (void)initViews:(ZYRefreshState)refreshState {
+    for (UIView *view in self.subviews) {
+        [view removeFromSuperview];
+    }
+    [self addSubview:self.centerView];
+    [self.centerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self);
+    }];
 }
 
 - (void)beginRefreshing {
@@ -60,7 +47,7 @@
             self.statusLabel.text = self.pullCanRefreshText;
             break;
         }
-        case     ZYRefreshStateReleaseCanRefresh: {
+        case ZYRefreshStateReleaseCanRefresh: {
             self.statusLabel.text = self.releaseCanRefreshText;
             break;
         }
@@ -85,7 +72,7 @@
             self.pullCanRefreshText = linefeedsTitle;
             break;
         }
-        case     ZYRefreshStateReleaseCanRefresh: {
+        case ZYRefreshStateReleaseCanRefresh: {
             self.releaseCanRefreshText = linefeedsTitle;
             break;
         }
@@ -104,6 +91,7 @@
 #pragma mark - setter methods
 - (void)setState:(ZYRefreshState)state {
     _state = state;
+    [self initViews:state];
     [self reloadDataWithState];
 }
 
@@ -141,21 +129,6 @@
         _statusLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _statusLabel;
-}
-
-- (UIImageView *)imageView {
-    if (!_imageView) {
-        _imageView = [[UIImageView alloc] init];
-        _imageView.contentMode = UIViewContentModeCenter;
-    }
-    return _imageView;
-}
-
-- (UIActivityIndicatorView *)activityView {
-    if (!_activityView) {
-        _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    }
-    return _activityView;
 }
 
 #pragma mark - Other

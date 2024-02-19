@@ -79,6 +79,7 @@
         [weakSelf refreshData];
     }];
     _collectionView.zy_header = header;
+//    header.stateLabelHidden = YES;
     
     ZYNormalRefreshFooter *footer = [ZYNormalRefreshFooter footerWithRefreshingBlock:^{
         [weakSelf loadingData];

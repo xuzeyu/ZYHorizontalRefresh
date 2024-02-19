@@ -14,8 +14,6 @@
 
 @implementation ZYGifRefreshFooter
 
-@synthesize stateLabelHidden = _stateLabelHidden;
-
 + (instancetype)footerWithRefreshingBlock:(ZYRefreshComponentAction)refreshingBlock {
     return [self footerWithPullCanRefreshImages:nil refreshingImages:nil refreshingBlock:refreshingBlock];
 }
@@ -41,41 +39,52 @@
     return footer;
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview {
-    [super willMoveToSuperview:newSuperview];
-    
-    [self.imageView removeFromSuperview];
-    [self.activityView removeFromSuperview];
-    
-    self.gifImageView = [[UIImageView alloc] init];
-    self.gifImageView.contentMode = UIViewContentModeCenter;
-    [self.centerView addSubview:self.gifImageView];
-
-//    self.gifImageView.frame = self.bounds;
-//
-//    if (!self.stateLabelHidden) {
-//        self.gifImageView.center = CGPointMake(self.width / 2, self.height / 2 + 120);
-//    }
-    
-    self.stateLabelHidden = self.stateLabelHidden;
-}
-
-- (void)setStateLabelHidden:(BOOL)stateLabelHidden {
-    _stateLabelHidden  = stateLabelHidden;
-    self.statusLabel.hidden = stateLabelHidden;
-    
-    if (self.stateLabelHidden) {
-        [self.gifImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(0);
-        }];
-    }else {
-        [self.gifImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.statusLabel.mas_bottom).offset(15);
-            make.centerX.equalTo(self.statusLabel);
-            make.bottom.mas_equalTo(0);
-        }];
+- (void)initViews:(ZYRefreshState)refreshState {
+    [super initViews:refreshState];
+    if (refreshState != ZYRefreshStateNoMoreData) {
+        if (self.stateLabelHidden) {
+            [self.imageView removeFromSuperview];
+            [self.centerView addSubview:self.gifImageView];
+            [self.gifImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.edges.mas_equalTo(0);
+            }];
+            
+            [self.activityView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self.gifImageView);
+            }];
+        }else {
+            [self.imageView removeFromSuperview];
+            [self.centerView addSubview:self.gifImageView];
+            [self.gifImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.statusLabel.mas_bottom).offset(8);
+                make.centerX.mas_equalTo(1);
+                make.bottom.mas_equalTo(0);
+                make.size.mas_equalTo(self.gifImageSize);
+            }];
+            
+            [self.activityView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self.gifImageView);
+            }];
+        }
     }
 }
+
+//- (void)willMoveToSuperview:(UIView *)newSuperview {
+//    [super willMoveToSuperview:newSuperview];
+//    
+//    [self.imageView removeFromSuperview];
+//    [self.activityView removeFromSuperview];
+//    
+//    self.gifImageView = [[UIImageView alloc] init];
+//    self.gifImageView.contentMode = UIViewContentModeCenter;
+//    [self.centerView addSubview:self.gifImageView];
+//
+////    self.gifImageView.frame = self.bounds;
+////
+////    if (!self.stateLabelHidden) {
+////        self.gifImageView.center = CGPointMake(self.width / 2, self.height / 2 + 120);
+////    }
+//}
 
 - (void)setState:(ZYRefreshState)state {
     if (self.state == state) { return; }
