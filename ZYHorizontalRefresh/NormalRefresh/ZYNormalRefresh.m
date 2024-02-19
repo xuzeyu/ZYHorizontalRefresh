@@ -27,7 +27,7 @@
     [super initViews:refreshState];
     if (refreshState == ZYRefreshStateNoMoreData) {
         [self.centerView addSubview:self.statusLabel];
-        [self.statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.statusLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
         }];
     }else {

@@ -19,18 +19,18 @@
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.state = ZYRefreshStatePullCanRefresh;
+        [self addSubview:self.centerView];
+        [self.centerView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(self);
+        }];
     }
     return self;
 }
 
 - (void)initViews:(ZYRefreshState)refreshState {
-    for (UIView *view in self.subviews) {
+    for (UIView *view in self.centerView.subviews) {
         [view removeFromSuperview];
     }
-    [self addSubview:self.centerView];
-    [self.centerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self);
-    }];
 }
 
 - (void)beginRefreshing {
