@@ -38,19 +38,31 @@
         
         self.imageViewColor = self.statusTextColor = [UIColor colorWithRed:90/255.0 green:90/255.0 blue:90/255.0 alpha:1];
         
-        self.imagePath = @"ZYHorizontalRefresh.bundle/images";
-        self.gifPath = @"ZYHorizontalRefresh.bundle/gif";
+        self.imagePath = @"images";
+        self.gifPath = @"gif";
     }
     return self;
 }
 
++ (NSBundle *)zy_refreshBundle
+{
+    static NSBundle *refreshBundle = nil;
+    if (refreshBundle == nil) {
+        NSBundle *containnerBundle = [NSBundle bundleForClass:NSClassFromString(@"ZYRefreshComponent")];
+        refreshBundle = [NSBundle bundleWithPath:[containnerBundle pathForResource:@"ZYHorizontalRefresh" ofType:@"bundle"]];
+    }
+    return refreshBundle;
+}
+
 + (UIImage *)imageNamed:(NSString *)imageName {
-    NSString *path = [[ZYRefreshConfig config].imagePath stringByAppendingPathComponent:imageName];
+    NSString *imagePath = [[[ZYRefreshConfig zy_refreshBundle] bundlePath] stringByAppendingPathComponent:[ZYRefreshConfig config].imagePath];
+    NSString *path = [imagePath stringByAppendingPathComponent:imageName];
     return [UIImage imageNamed:path];
 }
 
 + (UIImage *)gifImageNamed:(NSString *)imageName {
-    NSString *path = [[ZYRefreshConfig config].gifPath stringByAppendingPathComponent:imageName];
+    NSString *gifPath = [[[ZYRefreshConfig zy_refreshBundle] bundlePath] stringByAppendingPathComponent:[ZYRefreshConfig config].gifPath];
+    NSString *path = [gifPath stringByAppendingPathComponent:imageName];
     return [UIImage imageNamed:path];
 }
 

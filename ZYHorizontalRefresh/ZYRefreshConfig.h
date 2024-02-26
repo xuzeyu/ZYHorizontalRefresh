@@ -40,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //方法
 + (instancetype)config;
++ (NSBundle *)zy_refreshBundle;
 + (UIImage *)imageNamed:(NSString *)imageName;//获取图片
 + (UIImage *)gifImageNamed:(NSString *)imageName;
 @end
