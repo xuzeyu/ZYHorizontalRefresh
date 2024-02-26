@@ -18,10 +18,10 @@
     return self;
 }
 
-- (void)setStateLabelHidden:(BOOL)stateLabelHidden {
-    [super setStateLabelHidden:stateLabelHidden];
-    [self initViews:self.state];
-}
+//- (void)setStateLabelHidden:(BOOL)stateLabelHidden {
+//    [super setStateLabelHidden:stateLabelHidden];
+//    [self initViews:self.state];
+//}
 
 - (void)initViews:(ZYRefreshState)refreshState {
     [super initViews:refreshState];

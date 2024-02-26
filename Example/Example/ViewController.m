@@ -48,6 +48,7 @@
 - (void)loadData {
     self.tableView.tableFooterView = [[UIView alloc] init];
     self.dataArray = @[@"normal Demo",
+                       @"normal Demo without text",
                        @"gif Demo",
                        @"gif Demo without text"];
 }

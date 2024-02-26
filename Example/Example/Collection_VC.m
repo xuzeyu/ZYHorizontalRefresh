@@ -58,9 +58,12 @@
             [self normalDemo];
             break;
         case 1:
-            [self gifDemo];
+            [self normalDemoWithoutText];
             break;
         case 2:
+            [self gifDemo];
+            break;
+        case 3:
             [self gifDemoWithoutText];
             break;
         default:
@@ -87,6 +90,22 @@
     _collectionView.zy_footer = footer;
     footer.isLastPage = YES;
 }
+
+- (void)normalDemoWithoutText {
+    WeakSelf(self)
+    ZYNormalRefreshHeader *header = [ZYNormalRefreshHeader headerWithRefreshingBlock:^{
+        [weakSelf refreshData];
+    }];
+    _collectionView.zy_header = header;
+    header.stateLabelHidden = YES;
+    
+    ZYNormalRefreshFooter *footer = [ZYNormalRefreshFooter footerWithRefreshingBlock:^{
+        [weakSelf loadingData];
+    }];
+    _collectionView.zy_footer = footer;
+    footer.isLastPage = YES;
+}
+
 
 - (void)gifDemo {
     WeakSelf(self)
